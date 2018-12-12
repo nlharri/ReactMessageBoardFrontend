@@ -114,10 +114,10 @@ class MessageBoardContainer extends React.Component {
     return (
       <div className="container">
         <div class="col s12">
-            <h4>MESSAGE<b>BOARD</b>APP</h4>
+          <h4>MESSAGE<b>BOARD</b>APP</h4>
         </div>
         <div class="col s12">
-            <h6 class="right-align"><b>&copy; 2019 NLHARRI</b></h6>
+          <h6 class="right-align"><b>&copy; 2019 NLHARRI</b></h6>
         </div>
         <div>
           <MessageBoardErrorContainer />
