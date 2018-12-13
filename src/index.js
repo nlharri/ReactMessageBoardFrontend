@@ -1,19 +1,26 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import $ from 'jquery';
 import './index.css';
+
+import 'materialize-css/dist/css/materialize.min.css';
+import M from 'materialize-css';
 
 var Moment = require('moment');
 
 class MessageBoardErrorContainer extends React.Component {
   render() {
-    return (
-      <div>
-        <MessageBoardErrorMessage />
-        <MessageBoardErrorMessage />
-        <MessageBoardErrorMessage />
-      </div>
-    );
+    var messages = [];
+    for (var i = 0; i < this.props.errorMessages.length; i++) {
+      messages.push(
+        <MessageBoardErrorMessage 
+          key={i}
+          nickName='Error' 
+          messageText={this.props.errorMessages[i].messageText} 
+          timeStampText={Moment().format('MMMM Do YYYY, h:mm:ss a')}
+        />
+      );
+    }
+    return <div>{messages}</div>;
   }
 }
 
@@ -53,7 +60,13 @@ class MessageBoardForm extends React.Component {
             </div>
             <div className="collapsible-body">
               <div className="row">
-                <form onSubmit={(e) => {e.preventDefault(); this.props.onFormSubmit(this.state)}} className="col s12">
+                <form 
+                  onSubmit={(e) => {
+                    e.preventDefault(); 
+                    this.props.onFormSubmit(this.state)
+                  }}
+                  className="col s12"
+                >
                   <div className="row">
                     <div className="input-field col s12 ">
                       <p>
@@ -107,7 +120,7 @@ class MessageBoardMessageContainer extends React.Component {
   render() {
     var messages = [];
     for (var i = 0; i < this.props.messageBoardMessages.length; i++) {
-      messages.unshift(
+      messages.push(
         <MessageBoardMessage 
           key={i} 
           nickName={this.props.messageBoardMessages[i].nickName} 
@@ -122,9 +135,11 @@ class MessageBoardMessageContainer extends React.Component {
 
 class MessageBoardMessage extends React.Component {
   componentDidMount(){
-//    $('.collapsible').collapsible({
-//      accordion: false
-//    });
+    var elementList = document.querySelectorAll('.collapsible');
+    var instances = M.Collapsible.init(elementList, {});
+    for (var i = 0; i<instances.length; i++) {
+      instances[i].open(0);
+    }
   }
 
   render() {
@@ -146,16 +161,24 @@ class MessageBoardMessage extends React.Component {
 }
 
 class MessageBoardErrorMessage extends React.Component {
+  componentDidMount(){
+    var elementList = document.querySelectorAll('.collapsible');
+    var instances = M.Collapsible.init(elementList, {});
+    for (var i = 0; i<instances.length; i++) {
+      instances[i].open(0);
+    }
+  }
+
   render() {
     return (
       <div>
         <ul className="collapsible white" data-collapsible="expandable">
           <li className="active">
             <div className="collapsible-header waves-effect waves-yellow red accent-3">
-              <i className="material-icons">error</i>Error
+              <i className="material-icons">error</i>{this.props.nickName} says ({this.props.timeStampText}):
             </div>
             <div className="collapsible-body">
-              <p>"Error!"</p>
+            {this.props.messageText}
             </div>
           </li>
         </ul>
@@ -207,7 +230,14 @@ class MessageBoardContainer extends React.Component {
   
   // validate form data
   validate(formData) {
-    return [];
+    var errorMessages = [];
+    if (formData.nickName.length > 30) {
+      errorMessages.push({ messageText: 'Nickname cannot be longer than 30 characters.' })
+    }
+    if (formData.messageText.length > 300) {
+      errorMessages.push({ messageText: 'Message text cannot be longer than 300 characters.' })
+    }
+    return errorMessages;
   }
   
   
