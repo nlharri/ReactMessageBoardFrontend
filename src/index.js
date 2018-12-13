@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import $ from 'jquery';
 import './index.css';
 
 var Moment = require('moment');
@@ -46,8 +47,8 @@ class MessageBoardForm extends React.Component {
     return (
       <div>
         <ul className="collapsible white" data-collapsible="expandable">
-          <li>
-            <div className="collapsible-header active waves-effect waves-yellow light-green accent-1">
+          <li className="active">
+            <div className="collapsible-header waves-effect waves-yellow light-green accent-1">
               <i className="material-icons">add_comment</i>New Message
             </div>
             <div className="collapsible-body">
@@ -120,12 +121,18 @@ class MessageBoardMessageContainer extends React.Component {
 }
 
 class MessageBoardMessage extends React.Component {
+  componentDidMount(){
+//    $('.collapsible').collapsible({
+//      accordion: false
+//    });
+  }
+
   render() {
     return (
       <div>
         <ul className="collapsible white" data-collapsible="expandable">
-          <li>
-            <div className="collapsible-header active waves-effect waves-yellow light-green accent-1">
+          <li className="active">
+            <div className="collapsible-header waves-effect waves-yellow light-green accent-1">
               <i className="material-icons">message</i>{this.props.nickName} says ({this.props.timeStampText}):
             </div>
             <div className="collapsible-body">
@@ -143,8 +150,8 @@ class MessageBoardErrorMessage extends React.Component {
     return (
       <div>
         <ul className="collapsible white" data-collapsible="expandable">
-          <li>
-            <div className="collapsible-header active waves-effect waves-yellow red accent-3">
+          <li className="active">
+            <div className="collapsible-header waves-effect waves-yellow red accent-3">
               <i className="material-icons">error</i>Error
             </div>
             <div className="collapsible-body">
