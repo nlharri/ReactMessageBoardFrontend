@@ -76,7 +76,7 @@ class MessageBoardForm extends React.Component {
                           placeholder="Nickname" 
                           type="text" 
                           className="validate" 
-                          length="30" />
+                          data-length="30"/>
                         <span className="helper-text">(alphanumerical characters)</span>
                       </p>
                     </div>
@@ -87,8 +87,8 @@ class MessageBoardForm extends React.Component {
                           id="message" 
                           placeholder="Message" 
                           name="message" 
-                          className="materialize-textarea" 
-                          length="300"></textarea>
+                          className="materialize-textarea validate" 
+                          data-length="300"></textarea>
                         <span className="helper-text">(alphanumerical characters)</span>
                       </p>
                     </div>
@@ -175,7 +175,7 @@ class MessageBoardErrorMessage extends React.Component {
         <ul className="collapsible white" data-collapsible="expandable">
           <li className="active">
             <div className="collapsible-header waves-effect waves-yellow red accent-3">
-              <i className="material-icons">error</i>{this.props.nickName} says ({this.props.timeStampText}):
+              <i className="material-icons">error</i>{this.props.nickName} ({this.props.timeStampText}):
             </div>
             <div className="collapsible-body">
             {this.props.messageText}
@@ -233,9 +233,13 @@ class MessageBoardContainer extends React.Component {
     var errorMessages = [];
     if (formData.nickName.length > 30) {
       errorMessages.push({ messageText: 'Nickname cannot be longer than 30 characters.' })
+    } else if (formData.nickName.length === 0) {
+      errorMessages.push({ messageText: 'Nickname cannot be empty.' })
     }
     if (formData.messageText.length > 300) {
       errorMessages.push({ messageText: 'Message text cannot be longer than 300 characters.' })
+    } else if (formData.messageText.length === 0) {
+      errorMessages.push({ messageText: 'Message text cannot be empty.' })
     }
     return errorMessages;
   }
