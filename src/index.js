@@ -225,21 +225,37 @@ class MessageBoardContainer extends React.Component {
       errorMessages: errorMessagesNew,
       messageBoardMessages: messageBoardMessagesCopy,
     });
-    console.log("handleSubmit was called with: " + formData.nickName + " " + formData.messageText + " " + formData.timeStampText);
   }
   
   // validate form data
   validate(formData) {
     var errorMessages = [];
+    var re = /^[a-zA-Z0-9 ]*$/;
     if (formData.nickName.length > 30) {
-      errorMessages.push({ messageText: 'Nickname cannot be longer than 30 characters.' })
+      errorMessages.push({ 
+        messageText: 'Nickname cannot be longer than 30 characters.' 
+      });
     } else if (formData.nickName.length === 0) {
-      errorMessages.push({ messageText: 'Nickname cannot be empty.' })
+      errorMessages.push({ 
+        messageText: 'Nickname cannot be empty.' 
+      });
+    } else if (!formData.nickName.match(re)) {
+      errorMessages.push({ 
+        messageText: 'Nickname can contain only characters of the english alphabet, numbers and space.'
+      });
     }
     if (formData.messageText.length > 300) {
-      errorMessages.push({ messageText: 'Message text cannot be longer than 300 characters.' })
+      errorMessages.push({ 
+        messageText: 'Message text cannot be longer than 300 characters.' 
+      });
     } else if (formData.messageText.length === 0) {
-      errorMessages.push({ messageText: 'Message text cannot be empty.' })
+      errorMessages.push({ 
+        messageText: 'Message text cannot be empty.' 
+      });
+    } else if (!formData.messageText.match(re)) {
+      errorMessages.push({ 
+        messageText: 'Message text can contain only characters of the english alphabet, numbers and space.'
+      });
     }
     return errorMessages;
   }
