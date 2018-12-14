@@ -214,7 +214,7 @@ class MessageBoardContainer extends React.Component {
     );
   }
   
-  // formData is an array of messages
+  // formData is an object with the nickname, message and timestamp
   handleSubmit(formData) {
     const messageBoardMessagesCopy = this.state.messageBoardMessages.slice(); 
     var errorMessagesNew = this.validate(formData);
